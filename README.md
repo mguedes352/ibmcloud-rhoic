@@ -60,3 +60,196 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
 2. No painel de navegação esquerdo, na perspectiva do **Administrador**, selecione **Início > Visualização Projetos** para exibir todos os projetos.
 3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health```, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
 4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > exemplo-saúde** na parte superior.
+
+### Construir e implantar aplicativo
+1. Mude da perspectiva do **Administrador** para a perspectiva do **Desenvolvedor**. Seu contexto deve ser **Desenvolvedor > +Adicionar** à esquerda e **Projeto: exemplo-saúde** no topo.
+
+<img width="1308" alt="ocp48-project-view" src="https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/25bfb295-2f59-49fd-be3c-7f18f85d5d32">
+
+2. Vamos construir e implantar o aplicativo selecionando **Import from Git**.
+3. Insira o repositório ```https://github.com/IBM-Cloud/patient-health-frontend.git``` no campo URL do repositório Git.
+   - Observe a marca verde ```Builder image detected``` e o Node.js 16 (UBI 8).
+   - Observe que a imagem do construtor detectou automaticamente a linguagem ```Node.js.``` Se não for detectado, selecione Node.jsna lista fornecida.
+   - **Versão da imagem do construtor** deixe no padrão.
+   - **Nome do aplicativo** exclua todos os caracteres e deixe-o vazio (o padrão será **Name**)
+   - **Nome**: interface de saúde do paciente.
+   - Clique no link **Tipo de recurso** e escolha **DeploymentConfig**.
+   - Deixe os padrões para outras seleções.
+4. Clique em **Criar** na parte inferior da janela para construir e implementar o aplicativo.
+
+### Ver aplicação
+1. Você deverá ver o aplicativo que acabou de implantar. Observe que você está na visualização **Topologia** do projeto de integridade de exemplo na perspectiva **Desenvolvedor**. Todos os aplicativos do projeto são exibidos.
+2. Selecione o **nó patient-health-frontend** para exibir a visualização de detalhes do arquivo ```DeploymentConfig```. Observe o **DC** ao lado de **patient-health-frontend**. Os Pods, Builds, Serviços e Rotas ficam visíveis.
+
+![ocp45-topo-app-details](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/e7d65105-8881-4c16-b83f-aa58adaa4e4b)
+    - **Pods** : seus contêineres de aplicativos Node.js
+    - **Builds** : a compilação gerada automaticamente que criou uma imagem Docker a partir do seu código-fonte Node.js, implantou-a no registro de contêiner do Red Hat OpenShift e iniciou sua configuração de implantação
+    - **Serviços** : informa ao Red Hat OpenShift como acessar seus pods agrupando-os como um serviço e definindo a porta para escutar
+    - **Rotas** : expõe seus serviços ao mundo externo usando o LoadBalancer fornecido pela rede IBM Cloud
+3. Clique em **Exibir logs** ao lado de sua compilação concluída. Isso mostra o processo que o Red Hat OpenShift realizou para instalar as dependências do seu aplicativo Node.js e criar/enviar uma imagem Docker. A última entrada deve ficar assim:
+```
+Successfully pushed image-registry.openshift-image-registry.svc:5000/example-health/patient-health-frontend@sha256:f9385e010144f36353a74d16b6af10a028c12d005ab4fc0b1437137f6bd9e20a
+Push successful
+```
+4. Clique novamente na **Topologia** e selecione seu aplicativo novamente.
+5. Clique no URL em **Rotas** para visitar seu aplicativo. Insira qualquer string para nome de usuário e senha, por exemplo, ```test:test``` porque o aplicativo está sendo executado em modo de demonstração.
+
+O ```Node.js``` aplicativo foi implantado no Red Hat OpenShift Container Platform. Para recapitular:
+ - O aplicativo Node.js "Example Health" foi implantado diretamente do GitHub em seu cluster.
+ - O aplicativo foi examinado no console do Red Hat OpenShift on IBM Cloud.
+ - Uma **configuração de build** foi criada - um novo commit pode ser compilado e implantado clicando em **Iniciar compilação** na seção Builds dos detalhes do aplicativo.
+
+### Simular Carga na Aplicação
+
+Crie um script para simular carga.
+
+1. Certifique-se de estar conectado ao projeto onde implantou seu aplicativo.
+   ```
+   oc project example-health
+   ```
+2. Recupere a rota pública para acessar seu aplicativo:
+   ```
+   oc get routes
+   ```
+   A saída é semelhante a esta, observe seu valor para Host:
+   ```
+   NAME         HOST/PORT                                                                                                 PATH      SERVICES     PORT       TERMINATION   WILDCARD
+   patient-health-frontend   patient-health-frontend-example-health.roks07-872b77d77f69503584da5a379a38af9c-0000.eu-de.containers.appdomain.cloud             patient-health-frontend   8080-tcp                 None
+   ```
+3. Defina uma variável com o host:
+   ```
+   HOST=$(oc get routes -o json | jq -r '.items[0].spec.host')
+   ```
+4. Verifique o acesso ao aplicativo. Ele produz informações do paciente:
+   ```
+   curl -s -L http://$HOST/info
+   ```
+   A saída deve ser semelhante a:
+   ```
+   $ curl -s -L http://$HOST/info
+   {"personal":{"name":"Ralph DAlmeida","age":38,"gender":"male","street":"34 Main Street","city":"Toronto","zipcode":"M5H 1T1"},"medications":["Metoprolol","ACE inhibitors","Vitamin D"],"appointments":["2018-01-15 1:00 - Dentist","2018-02-14 4:00 - Internal Medicine","2018-09-30 8:00 - Pediatry"]}
+   ```
+5. Execute o seguinte script que enviará solicitações infinitamente ao aplicativo e gerará tráfego:
+   ```
+   while sleep 0.2; do curl --max-time 2 -s -L http://$HOST/info >/dev/null; echo -n "."
+   done
+   ```
+> Para interromper o script, pressione ```CTRL + c``` no teclado.
+
+### Dimensionando o aplicativo
+
+O Red Hat OpenShift fornece uma interface web para executar consultas e examinar as métricas visualizadas em um gráfico. Essa funcionalidade fornece uma visão geral abrangente do estado do cluster e permite solucionar problemas.
+Nesta seção, as métricas mencionadas podem ser usadas para dimensionar o aplicativo de UI em resposta ao carregamento.
+
+### Habilitar Limites de Recursos
+
+Antes do escalonamento automático, os limites máximos de recursos de CPU e memória devem ser estabelecidos.
+
+Os painéis anteriores mostraram que a carga estava consumindo algo entre “0,002” e “0,02” núcleos. Isso se traduz em 2 a 20 "milicores". Por segurança, vamos aumentar o limite superior para 30 milicores. Além disso, os dados mostraram que o aplicativo consome cerca de `25` - `65MB` de RAM. As etapas a seguir definirão os limites de recursos no arquivo deployConfig.
+
+1. Certifique-se de que o script para gerar tráfego esteja em execução.
+2. Mude para a perspectiva do **Administrador**.
+3. Navegue até **Cargas de trabalho > DeploymentConfigs**.
+4. Selecione o projeto **de exemplo de saúde**.
+5. No menu **Ações** (os três pontos verticais) de `patient-health-frontend` , escolha **Editar DeploymentConfig**.
+
+![ocp48-deploymentconfigs](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/dc862fb2-5e99-4bc5-b228-6bd8ba60f807)
+
+6. Na **visualização YAML**, encontre a seção **spec > template > spec > containers** e adicione os seguintes limites de recursos aos recursos vazios. Substitua o `resources {}` e certifique-se de que o espaçamento esteja correto - o YAML usa recuo estrito.
+```
+resources:
+            limits:
+              cpu: 30m
+              memory: 100Mi
+            requests:
+              cpu: 3m
+              memory: 40Mi
+```
+Aqui está um trecho depois de fazer as alterações:
+```
+ports:
+         - containerPort: 8080
+           protocol: TCP
+       resources:
+         limits:
+           cpu: 30m
+           memory: 100Mi
+         requests:
+           cpu: 3m
+           memory: 40Mi
+       terminationMessagePath: /dev/termination-log
+```
+7. **Salve** para aplicar as alterações.
+8. Verifique se o controlador de replicação foi alterado navegando até a guia **Eventos**:
+
+![ocp48-dc-events](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/acafae15-f336-46a9-94cc-00156ac1b13e)
+
+### Ativar escalonador automático
+
+Agora que os limites de recursos estão configurados, o escalonador automático de pod pode ser habilitado.
+
+Por padrão, o escalonador automático permite dimensionar com base na CPU ou na memória. Os pods são balanceados entre o número mínimo e máximo de pods que você especifica. Com o escalonador automático, os pods são criados ou excluídos automaticamente para garantir que o uso médio da CPU dos pods esteja abaixo da meta de solicitação da CPU, conforme definido. Em geral, você provavelmente desejará começar a aumentar a escala quando chegar perto de `50 - 90` % do uso da CPU de um pod. No nosso caso, `1` % pode ser usado com a carga fornecida.
+
+1. Navegue até a perspectiva **do administrador Cargas de trabalho > HorizontalPodAutoscalers** e clique em **Criar HorizontalPodAutoscaler**.
+
+![ocp48-hpa](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/f324109b-fd35-4c9e-b5fa-78d9a026289b)
+
+Substitua o conteúdo do editor por este yaml:
+
+```
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: patient-hpa
+  namespace: example-health
+spec:
+  scaleTargetRef:
+    apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    name: patient-health-frontend
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          averageUtilization: 1
+          type: Utilization
+```
+2. Clique em **Criar**.
+
+### Teste do escalonador automático
+
+Se você não estiver executando o script para simular a carga, o número de pods deverá permanecer em 1.
+
+1. Verifique abrindo a página **Visão geral** da configuração de implantação. Clique em **Cargas de trabalho > DeploymentConfigs** e clique em **patient-health-frontend** e certifique-se de que o painel **Detalhes** esteja selecionado.
+2. Comece a simular carga.
+
+![ocp48-hpa-after](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/c08df654-f31b-4e9b-8457-c0dece938fc6)
+
+> Pode levar alguns minutos para que o autoescalador faça ajustes.
+
+É isso! Agora você tem um aplicativo Node.js front-end altamente disponível e dimensionado automaticamente. O Red Hat OpenShift está escalando automaticamente seus pods de aplicativos, já que o uso de CPU dos pods excedeu em muito a `1` % do limite de recursos, `30` milicores.
+
+### Escalonamento automático a partir da linha de comando
+
+Você também pode excluir e criar recursos como escalares automáticos com a linha de comando.
+
+1. Comece verificando se o contexto é o seu projeto:
+```
+oc project example-health
+```
+2. Obtenha o escalonador automático criado anteriormente:
+```
+oc get hpa
+```
+3. Exclua o escalonador automático criado anteriormente:
+```
+oc delete hpa/patient-hpa
+```
+4. Crie um novo escalonador automático com no máximo 9 pods:
+```
+oc autoscale deploymentconfig/patient-health-frontend --name patient-hpa --min 1 --max 9 --cpu-percent=1
+```
+5. Visite novamente a página **Cargas de trabalho** > Detalhes de DeploymentConfigs para `patient-health-frontend` implantação e veja como funciona.
