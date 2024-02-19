@@ -1,5 +1,5 @@
 ## Implemente microsserviços com Red Hat OpenShift em IBM Cloud
-Este tutorial demonstra como implementar aplicativos no [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/kubernetes/catalog/about?platformType=openshift&CAMPAIGN_CODE). O Red Hat OpenShift on IBM Cloud oferece uma ótima experiência para desenvolvedores implementarem aplicativos de software e para administradores de sistema escalarem e observarem os aplicativos em produção.
+Este tutorial demonstra como implementar uma aplicação no [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/kubernetes/catalog/about?platformType=openshift&CAMPAIGN_CODE). O Red Hat OpenShift em IBM Cloud oferece uma ótima experiência para desenvolvedores implementarem aplicativos de software e para administradores de sistema escalarem e observarem os aplicativos em produção.
 
 ### Objetivos
 - Implantar um microsserviço
@@ -7,7 +7,7 @@ Este tutorial demonstra como implementar aplicativos no [Red Hat OpenShift on IB
 - Observe o cluster usando análise de log *
 - Observe o cluster usando o IBM Cloud Monitoring
 
-  *Diagrama
+  *Diagrama de arquitetura
 
 1. Um desenvolvedor inicializa uma aplicação Red Hat OpenShift com uma URL de repositório resultando em **Builder, DeploymentConfig e Service**.
 2. O Builder clona a origem, cria uma imagem e envia-a para o registro do Red Hat OpenShift para provisionamento do **DeploymentConfig**.
