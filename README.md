@@ -1,6 +1,3 @@
-# ibmcloud-rhoic
-Implemente microsserviços com Red Hat OpenShift em IBM Cloud.
-
 ## Implemente microsserviços com Red Hat OpenShift em IBM Cloud
 Este tutorial demonstra como implementar aplicativos no [Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/kubernetes/catalog/about?platformType=openshift&CAMPAIGN_CODE). O Red Hat OpenShift on IBM Cloud oferece uma ótima experiência para desenvolvedores implementarem aplicativos de software e para administradores de sistema escalarem e observarem os aplicativos em produção.
 
