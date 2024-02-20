@@ -4,10 +4,10 @@ Este tutorial demonstra como implementar uma aplicação no [Red Hat OpenShift o
 ### Objetivos
 - Implantar um microsserviço
 - Dimensione o microsserviço
-- Observe o cluster usando análise de log *
 - Observe o cluster usando o IBM Cloud Monitoring
 
-  *Diagrama de arquitetura
+  ![Diagrama de arquitetura LAB IBM Cloud Day](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/a26be12d-49df-4525-8a9c-bb8d2a135ff8)
+
 
 1. Um desenvolvedor inicializa uma aplicação Red Hat OpenShift com uma URL de repositório resultando em **Builder, DeploymentConfig e Service**.
 2. O Builder clona a origem, cria uma imagem e envia-a para o registro do Red Hat OpenShift para provisionamento do **DeploymentConfig**.
