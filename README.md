@@ -276,3 +276,99 @@ Pode levar alguns minutos para que os dados de registro e métricas fluam pelos 
    5. Use o grupo de recursos associado ao seu cluster.
    6. Deixe as métricas da plataforma IBM como **Desativar** e clique em **Criar**.
 
+### Configurar monitoramento
+
+A IBM Cloud fornece um serviço de monitoramento totalmente gerenciado. Vamos criar uma instância de monitoramento e, em seguida, integrá-la ao cluster do Red Hat OpenShift on IBM Cloud usando um script que cria um projeto e uma conta de serviço privilegiada para o agente de monitoramento.
+
+### Verifique se o agente do Monitoring foi implementado com sucesso
+
+Verifique se os `sysdig-agentpods` em cada nó têm o status **Em execução**.
+
+Execute o seguinte comando:
+```
+oc get pods -n ibm-observe
+```
+
+Exemplo de saída:
+```
+NAME                 READY     STATUS    RESTARTS   AGE
+sysdig-agent-qrbcq   1/1       Running   0          1m
+sysdig-agent-rhrgz   1/1       Running   0          1m
+```
+
+### Monitore seu cluster
+
+O IBM Cloud Monitoring é um sistema de gerenciamento de inteligência de contêiner nativo da nuvem que pode ser incluído como parte de sua arquitetura do IBM Cloud. Use-o para obter visibilidade operacional do desempenho e da integridade de seus aplicativos, serviços e plataformas. Ele oferece aos administradores, equipes de DevOps e desenvolvedores telemetria full stack com recursos avançados para monitorar e solucionar problemas de desempenho, definir alertas e projetar painéis personalizados. [Saber mais](https://cloud.ibm.com/docs/monitoring?topic=monitoring-getting-started&CAMPAIGN_CODE=).
+
+Nas próximas etapas, você aprenderá como usar painéis e métricas para monitorar a integridade da sua aplicação.
+
+### Visualize visualizações e painéis de monitoramento predefinidos
+
+Use visualizações e painéis para monitorar sua infraestrutura, aplicativos e serviços. Você pode usar painéis predefinidos. Você também pode criar painéis personalizados por meio da UI da Web ou de forma programática. Você pode fazer backup e restaurar painéis usando scripts Python.
+
+A tabela a seguir lista os diferentes tipos de painéis predefinidos:
+
+| Tipo |	Descrição |
+| --- | ---|
+| Status e desempenho da carga de trabalho | Painéis que você pode usar para monitorar seus pods. |
+| Status e desempenho do nó |	Painéis que você pode usar para monitorar a utilização de recursos e a atividade do sistema em seus hosts e contêineres. |
+| Rede |	Painéis que você pode usar para monitorar suas conexões e atividades de rede. |
+
+### Veja o painel de monitoramento
+
+1. Navegue até [os clusters do Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/kubernetes/clusters?platformType=openshift&CAMPAIGN_CODE) e observe os clusters do Red Hat OpenShift
+2. Clique no seu cluster e verifique se a guia **Visão geral** à esquerda está selecionada
+3. Na seção **Integrações ao lado de Monitoramento**, clique no botão **Iniciar**.
+
+Os dados iniciais podem NÃO estar disponíveis em instâncias **de monitoramento** recém-criadas.
+
+- Após alguns minutos, os dados brutos serão exibidos
+- Após cerca de uma hora, a indexação fornecerá os detalhes necessários para prosseguir com este tutorial
+- Na seção **Painéis**, selecione **Kubernetes > Status e desempenho do pod** para visualizar métricas brutas de todas as cargas de trabalho em execução no cluster.
+- Defina o filtro de **namespace** como **example-health** para focar nos pods do seu aplicativo.
+- Em **Painéis** no painel esquerdo, expanda **Aplicações** em **Dashboard Templates**. Em seguida, selecione **HTTP** para obter uma visão global da carga HTTP do cluster.
+
+### Explore o cluster e a capacidade do nó
+
+1. Selecione **Dashboards**, confira os dois modelos de dashboard:
+   - **Contêineres > Uso de recursos de contêiner**
+   - **Infraestrutura de host > Uso de recursos de host**
+2. Selecione **Kubernetes** > modelo de **redimensionamento de pod e otimização de capacidade de carga de trabalho**. Este painel ajuda você a otimizar sua infraestrutura e controlar melhor os gastos do cluster, garantindo que os pods sejam dimensionados corretamente. Entenda se você pode liberar recursos reduzindo solicitações de memória e/ou CPU.
+
+### Explore a aplicação
+
+1. Selecione **Dashboards** e o modelo **Kubernetes > Workload Status & Performance**.
+   Um painel detalhado mostrando todos os pods do cluster.
+
+2. Crie um painel personalizado e, em seguida, coloque-o em um namespace específico.
+   - No canto superior direito, clique em **Copiar para meus painéis** e nomeie-o `Workload Status & Performanceapp example-health`
+   - Clique em **Criar e abrir** para criar seu próprio painel.
+   - Edite o escopo do painel.
+   - Defina o filtro para `kube_namespace_name, is, example-health`.
+   - Clique em **Salvar**.
+
+O painel agora mostra informações focadas no namespace example-health.
+
+Role para baixo até TimeCharts para solicitações HTTP, latência, erro, ... para entender o desempenho do aplicativo.
+
+<img width="1612" alt="dashboard-img-5" src="https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/5573f477-b20c-46df-b784-1bcfa835f9d5">
+
+Encontre mais sobre o IBM Cloud Monitoring na [documentação do IBM Cloud](https://cloud.ibm.com/docs/monitoring?topic=monitoring-getting-started&CAMPAIGN_CODE=).
+
+### Remover recursos
+> [!WARNING]
+> Exclua todos os objetos de recursos do aplicativo:
+```
+oc delete all --selector app=$MYPROJECT
+```
+> [!WARNING]
+> Exclua o projeto:
+```
+oc delete project $MYPROJECT
+```
+
+### Conteúdo Relacionado
+- [Red Hat OpenShift on IBM Cloud
+](https://cloud.ibm.com/docs/openshift?CAMPAIGN_CODE)
+- [Analise logs e monitore a integridade do aplicativo](https://cloud.ibm.com/docs/solution-tutorials?topic=solution-tutorials-application-log-analysis&CAMPAIGN_CODE=#application-log-analysis)
+- [Escalonamento automático horizontal de pods](https://docs.openshift.com/container-platform/4.12/nodes/pods/nodes-pods-autoscaling.html)
