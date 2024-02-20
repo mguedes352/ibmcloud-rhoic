@@ -253,3 +253,26 @@ oc delete hpa/patient-hpa
 oc autoscale deploymentconfig/patient-health-frontend --name patient-hpa --min 1 --max 9 --cpu-percent=1
 ```
 5. Visite novamente a página **Cargas de trabalho** > Detalhes de DeploymentConfigs para `patient-health-frontend` implantação e veja como funciona.
+
+### Conecte o Log Analysis e o Monitoring ao cluster do Red Hat OpenShift em IBM Cloud
+
+Pode levar alguns minutos para que os dados de registro e métricas fluam pelos sistemas de análise, por isso é melhor conectar ambos neste momento para uso posterior.
+
+> Se você foi convidado para uma conta de laboratório à qual uma instância do Monitoring ou Log Analysis já foi conectada, ignore as etapas de conexão. Encontre sua instância do Monitoring observando o nome do cluster nas tags anexadas à instância.
+
+1. Navegue até [os clusters do Red Hat OpenShift on IBM Cloud](https://cloud.ibm.com/kubernetes/clusters?platformType=openshift&CAMPAIGN_CODE)
+2. Clique no seu cluster e verifique se a guia **Visão geral** à esquerda está selecionada
+3. Role até **Integrações** e se o **Logging** não estiver conectado, clique no botão **Logging Connect**. Use uma instância existente do Log Analysis ou crie uma nova instância conforme mostrado abaixo:
+   1. Clique em **Criar uma instância**.
+   2. Selecione o mesmo local onde seu cluster foi criado.
+   3. Selecione **Pesquisa de registro de 7 dias** como seu plano.
+   4. Insira um **nome de serviço** exclusivo , como `.<your-initials>-logging`
+   5. Use o grupo de recursos associado ao seu cluster e clique em **Criar**.
+4. De volta à guia **Visão geral** do cluster , siga o mesmo procedimento para **Conectar** o monitoramento. Use uma instância existente do Monitoring ou crie uma nova instância conforme mostrado abaixo:
+   1. Clique em **Criar uma instância**.
+   2. Selecione o mesmo local onde seu cluster foi criado.
+   3. Selecione **Nível Graduado** como seu plano.
+   4. Insira um **nome de serviço** exclusivo , como `.<your-initials>-monitoring`
+   5. Use o grupo de recursos associado ao seu cluster.
+   6. Deixe as métricas da plataforma IBM como **Desativar** e clique em **Criar**.
+
