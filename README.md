@@ -82,10 +82,12 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
 2. Selecione o **nó patient-health-frontend** para exibir a visualização de detalhes do arquivo ```DeploymentConfig```. Observe o **DC** ao lado de **patient-health-frontend**. Os Pods, Builds, Serviços e Rotas ficam visíveis.
 
 ![ocp45-topo-app-details](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/e7d65105-8881-4c16-b83f-aa58adaa4e4b)
-    - **Pods** : seus contêineres de aplicativos Node.js
-    - **Builds** : a compilação gerada automaticamente que criou uma imagem Docker a partir do seu código-fonte Node.js, implantou-a no registro de contêiner do Red Hat OpenShift e iniciou sua configuração de implantação
-    - **Serviços** : informa ao Red Hat OpenShift como acessar seus pods agrupando-os como um serviço e definindo a porta para escutar
-    - **Rotas** : expõe seus serviços ao mundo externo usando o LoadBalancer fornecido pela rede IBM Cloud
+    
+- **Pods**: seus contêineres de aplicativos Node.js
+- **Builds** : a compilação gerada automaticamente que criou uma imagem Docker a partir do seu código-fonte Node.js, implantou-a no registro de contêiner do Red Hat OpenShift e iniciou sua configuração de implantação
+- **Serviços** : informa ao Red Hat OpenShift como acessar seus pods agrupando-os como um serviço e definindo a porta para escutar
+- **Rotas** : expõe seus serviços ao mundo externo usando o LoadBalancer fornecido pela rede IBM Cloud
+    
 3. Clique em **Exibir logs** ao lado de sua compilação concluída. Isso mostra o processo que o Red Hat OpenShift realizou para instalar as dependências do seu aplicativo Node.js e criar/enviar uma imagem Docker. A última entrada deve ficar assim:
 ```
 Successfully pushed image-registry.openshift-image-registry.svc:5000/example-health/patient-health-frontend@sha256:f9385e010144f36353a74d16b6af10a028c12d005ab4fc0b1437137f6bd9e20a
