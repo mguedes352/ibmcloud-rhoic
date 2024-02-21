@@ -46,7 +46,7 @@ ibmcloud oc clusters
 ```
 ibmcloud oc cluster config -c <seu-nome-do-cluster> --admin
 ```
-5. Verifique se o occomando está funcionando:
+5. Verifique se o `oc` comando está funcionando:
 ```
 oc get projects
 ```
