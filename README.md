@@ -59,7 +59,7 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
 1. Navegue até o console da web do Red Hat OpenShift clicando no botão do **console da web do OpenShift** no **Cluster** selecionado.
 2. No painel de navegação esquerdo, na perspectiva do **Administrador**, selecione **Início > Visualização Projetos** para exibir todos os projetos.
 3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health```, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
-4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > exemplo-saúde** na parte superior.
+4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > example-health** na parte superior.
 
 ### Construir e implantar aplicativo
 1. Mude da perspectiva do **Administrador** para a perspectiva do **Desenvolvedor**. Seu contexto deve ser **Desenvolvedor > +Adicionar** à esquerda e **Projeto: exemplo-saúde** no topo.
