@@ -69,7 +69,7 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
 2. Vamos construir e implantar o aplicativo selecionando **Import from Git**.
 3. Insira o repositório ```https://github.com/IBM-Cloud/patient-health-frontend.git``` no campo URL do repositório Git.
    - Observe a marca verde ```Builder image detected``` e o Node.js 16 (UBI 8).
-   - Observe que a imagem do construtor detectou automaticamente a linguagem ```Node.js.``` Se não for detectado, selecione Node.jsna lista fornecida.
+   - Observe que a imagem do construtor detectou automaticamente a linguagem ```Node.js.``` Se não for detectado, selecione **Node.js** na lista fornecida.
    - **Versão da imagem do construtor** deixe no padrão.
    - **Nome do aplicativo** exclua todos os caracteres e deixe-o vazio (o padrão será **Name**)
    - **Nome**: interface de saúde do paciente.
