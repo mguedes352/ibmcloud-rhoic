@@ -159,7 +159,7 @@ Os painéis anteriores mostraram que a carga estava consumindo algo entre “0,0
 
 6. Na **visualização YAML**, encontre a seção **spec > template > spec > containers** e adicione os seguintes limites de recursos aos recursos vazios. Substitua o `resources {}` e certifique-se de que o espaçamento esteja correto - o YAML usa recuo estrito.
 ```
-resources:
+           resources:
             limits:
               cpu: 30m
               memory: 100Mi
@@ -169,7 +169,7 @@ resources:
 ```
 Aqui está um trecho depois de fazer as alterações:
 ```
-ports:
+       ports:
          - containerPort: 8080
            protocol: TCP
        resources:
