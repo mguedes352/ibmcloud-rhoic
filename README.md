@@ -32,7 +32,7 @@ IBM Cloud Shell é uma área de trabalho de shell baseada em nuvem que pode ser 
 
 Nesta etapa, você usará o shell do IBM Cloud e o configurará ```oc``` para apontar para o cluster designado a você.
 
-1. Quando o cluster estiver pronto, clique no botão (ao lado da sua conta) no canto superior direito no icone ![image](https://github.com/mguedes352/ibmcloud-rhoic/assets/28928720/207b8bce-2538-4550-a532-cd87e4804273) para iniciar uma sessão Cloud Shell . Certifique-se de não fechar esta janela/guia .
+1. Quando o cluster estiver pronto, clique no botão (ao lado da sua conta) no canto superior direito no icone ![image](https://github.com/mguedes352/ibmcloud-rhoic/assets/28928720/3e0f523a-d8c8-4286-9735-14df2356417d) para iniciar uma sessão Cloud Shell . Certifique-se de não fechar esta janela/guia .
 2. Verifique a versão da CLI do OpenShift:
 ```
 oc version
