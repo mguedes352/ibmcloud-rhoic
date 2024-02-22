@@ -52,7 +52,7 @@ oc get projects
 ```
 
 ### Implantando um aplicativo
-Nesta seção, você implantará um aplicativo Node.js Express chamado ```patient-health-frontend```, uma interface de usuário para um sistema de registros de saúde de pacientes para demonstrar os recursos do Red Hat OpenShift. Você pode encontrar o repositório GitHub do aplicativo de amostra aqui: https://github.com/IBM-Cloud/paciente-health-frontend
+Nesta seção, você implantará um aplicativo Node.js Express chamado ```patient-health-frontend-<seu id único>```, uma interface de usuário para um sistema de registros de saúde de pacientes para demonstrar os recursos do Red Hat OpenShift. Você pode encontrar o repositório GitHub do aplicativo de amostra aqui: https://github.com/IBM-Cloud/paciente-health-frontend
 
 ### Criar projeto
 Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um administrador criará o projeto e os desenvolvedores poderão criar aplicativos que podem ser construídos e implantados.
@@ -72,14 +72,14 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
    - Observe que a imagem do construtor detectou automaticamente a linguagem ```Node.js.``` Se não for detectado, selecione **Node.js** na lista fornecida.
    - **Versão da imagem do construtor** deixe no padrão.
    - **Nome do aplicativo** exclua todos os caracteres e deixe-o vazio (o padrão será **Name**)
-   - **Nome**: interface-aplicacao-<seu id único>.
+   - **Nome**: patient-health-frontend-<seu id único>.
    - Clique no link **Tipo de recurso** e escolha **DeploymentConfig**.
    - Deixe os padrões para outras seleções.
 4. Clique em **Criar** na parte inferior da janela para construir e implementar o aplicativo.
 
 ### Ver aplicação
 1. Você deverá ver o aplicativo que acabou de implantar. Observe que você está na visualização **Topologia** do projeto de integridade de exemplo na perspectiva **Desenvolvedor**. Todos os aplicativos do projeto são exibidos.
-2. Selecione o **nó patient-health-frontend** para exibir a visualização de detalhes do arquivo ```DeploymentConfig```. Observe o **DC** ao lado de **patient-health-frontend**. Os Pods, Builds, Serviços e Rotas ficam visíveis.
+2. Selecione o **nó patient-health-frontend-<seu id único>** para exibir a visualização de detalhes do arquivo ```DeploymentConfig```. Observe o **DC** ao lado de **patient-health-frontend-<seu id único>**. Os Pods, Builds, Serviços e Rotas ficam visíveis.
 
 ![ocp45-topo-app-details](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/e7d65105-8881-4c16-b83f-aa58adaa4e4b)
     
@@ -90,7 +90,7 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
     
 3. Clique em **Exibir logs** ao lado de sua compilação concluída. Isso mostra o processo que o Red Hat OpenShift realizou para instalar as dependências do seu aplicativo Node.js e criar/enviar uma imagem Docker. A última entrada deve ficar assim:
 ```
-Successfully pushed image-registry.openshift-image-registry.svc:5000/example-health/patient-health-frontend@sha256:f9385e010144f36353a74d16b6af10a028c12d005ab4fc0b1437137f6bd9e20a
+Successfully pushed image-registry.openshift-image-registry.svc:5000/example-health/patient-health-frontend-<seu id único>@sha256:f9385e010144f36353a74d16b6af10a028c12d005ab4fc0b1437137f6bd9e20a
 Push successful
 ```
 4. Clique novamente na **Topologia** e selecione seu aplicativo novamente.
@@ -153,7 +153,7 @@ Os painéis anteriores mostraram que a carga estava consumindo algo entre “0,0
 2. Mude para a perspectiva do **Administrador**.
 3. Navegue até **Cargas de trabalho > DeploymentConfigs**.
 4. Selecione o projeto **example-health**.
-5. No menu **Ações** (os três pontos verticais) de `patient-health-frontend` , escolha **Editar DeploymentConfig**.
+5. No menu **Ações** (os três pontos verticais) de `patient-health-frontend-<seu id único>` , escolha **Editar DeploymentConfig**.
 
 ![ocp48-deploymentconfigs](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/dc862fb2-5e99-4bc5-b228-6bd8ba60f807)
 
@@ -196,7 +196,7 @@ Por padrão, o escalonador automático permite dimensionar com base na CPU ou na
 
 ![ocp48-hpa](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/f324109b-fd35-4c9e-b5fa-78d9a026289b)
 
-Substitua o conteúdo do editor por este yaml(**Mude o nome "patient-health-frontend" para o nome escolhido**):
+Substitua o conteúdo do editor por este yaml(**Inclua no nome "patient-health-frontend" o seu id único**):
 
 ```
 apiVersion: autoscaling/v2
@@ -225,7 +225,7 @@ spec:
 
 Se você não estiver executando o script para simular a carga, o número de pods deverá permanecer em 1.
 
-1. Verifique abrindo a página **Visão geral** da configuração de implantação. Clique em **Cargas de trabalho > DeploymentConfigs** e clique em **patient-health-frontend** e certifique-se de que o painel **Detalhes** esteja selecionado.
+1. Verifique abrindo a página **Visão geral** da configuração de implantação. Clique em **Cargas de trabalho > DeploymentConfigs** e clique em **patient-health-frontend-<seu id único>** e certifique-se de que o painel **Detalhes** esteja selecionado.
 2. Comece a simular carga.
 
 ![ocp48-hpa-after](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/c08df654-f31b-4e9b-8457-c0dece938fc6)
@@ -250,11 +250,11 @@ oc get hpa
 ```
 oc delete hpa/patient-hpa
 ```
-4. Crie um novo escalonador automático com no máximo 4 pods(**Mude o nome "patient-health-frontend" para o nome escolhido**):
+4. Crie um novo escalonador automático com no máximo 4 pods(**Inclua no nome "patient-health-frontend" o seu id único**):
 ```
 oc autoscale deploymentconfig/patient-health-frontend --name patient-hpa --min 1 --max 4 --cpu-percent=1
 ```
-5. Visite novamente a página **Cargas de trabalho** > Detalhes de DeploymentConfigs para `patient-health-frontend` implantação e veja como funciona.
+5. Visite novamente a página **Cargas de trabalho** > Detalhes de DeploymentConfigs para `patient-health-frontend-<seu id único>` implantação e veja como funciona.
 
 ### Conecte o Log Analysis e o Monitoring ao cluster do Red Hat OpenShift em IBM Cloud
 
