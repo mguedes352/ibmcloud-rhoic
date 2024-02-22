@@ -44,7 +44,7 @@ ibmcloud oc clusters
 ```
 4. Inicialize o ```oc``` ambiente de comando substituindo o espaço reservado <seu-nome-do-cluster>:
 ```
-ibmcloud oc cluster config -c <seu-nome-do-cluster> --admin
+ibmcloud oc cluster config -c openshift-cloud-day-sp --admin
 ```
 5. Verifique se o `oc` comando está funcionando:
 ```
@@ -72,7 +72,7 @@ Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um ad
    - Observe que a imagem do construtor detectou automaticamente a linguagem ```Node.js.``` Se não for detectado, selecione **Node.js** na lista fornecida.
    - **Versão da imagem do construtor** deixe no padrão.
    - **Nome do aplicativo** exclua todos os caracteres e deixe-o vazio (o padrão será **Name**)
-   - **Nome**: interface de saúde do paciente.
+   - **Nome**: interface-aplicacao-<seu id único>.
    - Clique no link **Tipo de recurso** e escolha **DeploymentConfig**.
    - Deixe os padrões para outras seleções.
 4. Clique em **Criar** na parte inferior da janela para construir e implementar o aplicativo.
@@ -152,7 +152,7 @@ Os painéis anteriores mostraram que a carga estava consumindo algo entre “0,0
 1. Certifique-se de que o script para gerar tráfego esteja em execução.
 2. Mude para a perspectiva do **Administrador**.
 3. Navegue até **Cargas de trabalho > DeploymentConfigs**.
-4. Selecione o projeto **de exemplo de saúde**.
+4. Selecione o projeto **example-health**.
 5. No menu **Ações** (os três pontos verticais) de `patient-health-frontend` , escolha **Editar DeploymentConfig**.
 
 ![ocp48-deploymentconfigs](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/dc862fb2-5e99-4bc5-b228-6bd8ba60f807)
