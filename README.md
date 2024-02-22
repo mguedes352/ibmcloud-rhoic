@@ -196,7 +196,7 @@ Por padrão, o escalonador automático permite dimensionar com base na CPU ou na
 
 ![ocp48-hpa](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/f324109b-fd35-4c9e-b5fa-78d9a026289b)
 
-Substitua o conteúdo do editor por este yaml:
+Substitua o conteúdo do editor por este yaml(**Mude o nome "patient-health-frontend" para o nome escolhido**):
 
 ```
 apiVersion: autoscaling/v2
@@ -250,9 +250,9 @@ oc get hpa
 ```
 oc delete hpa/patient-hpa
 ```
-4. Crie um novo escalonador automático com no máximo 9 pods:
+4. Crie um novo escalonador automático com no máximo 4 pods(**Mude o nome "patient-health-frontend" para o nome escolhido**):
 ```
-oc autoscale deploymentconfig/patient-health-frontend --name patient-hpa --min 1 --max 9 --cpu-percent=1
+oc autoscale deploymentconfig/patient-health-frontend --name patient-hpa --min 1 --max 4 --cpu-percent=1
 ```
 5. Visite novamente a página **Cargas de trabalho** > Detalhes de DeploymentConfigs para `patient-health-frontend` implantação e veja como funciona.
 
