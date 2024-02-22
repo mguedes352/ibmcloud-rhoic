@@ -58,7 +58,7 @@ Nesta seção, você implantará um aplicativo Node.js Express chamado ```patien
 Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um administrador criará o projeto e os desenvolvedores poderão criar aplicativos que podem ser construídos e implantados.
 1. Navegue até o console da web do Red Hat OpenShift clicando no botão do **console da web do OpenShift** no **Cluster** selecionado.
 2. No painel de navegação esquerdo, na perspectiva do **Administrador**, selecione **Início > Visualização Projetos** para exibir todos os projetos.
-3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health```, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
+3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health```, adicione caracteres aleatórios ao nome do projeto para que o mesmo seja único entre os participantes do evento, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
 4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > example-health** na parte superior.
 
 ### Construir e implantar aplicativo
