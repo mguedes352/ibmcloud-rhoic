@@ -58,8 +58,8 @@ Nesta seção, você implantará um aplicativo Node.js Express chamado ```patien
 Um projeto é uma coleção de recursos gerenciados por uma equipe DevOps. Um administrador criará o projeto e os desenvolvedores poderão criar aplicativos que podem ser construídos e implantados.
 1. Navegue até o console da web do Red Hat OpenShift clicando no botão do **console da web do OpenShift** no **Cluster** selecionado.
 2. No painel de navegação esquerdo, na perspectiva do **Administrador**, selecione **Início > Visualização Projetos** para exibir todos os projetos.
-3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health```, adicione caracteres aleatórios ao nome do projeto para que o mesmo seja único entre os participantes do evento, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
-4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > example-health** na parte superior.
+3. Crie um novo projeto clicando em **Criar Projeto**. No pop-up **Nomeie** o projeto ```example-health-<seu id único>```, adicione caracteres aleatórios ao nome do projeto para que o mesmo seja único entre os participantes do evento, deixe **Nome de exibição** e **descrição** em branco e clique em **Criar**.
+4. A página **Detalhes do Projeto** do novo projeto é exibida. Observe que seu contexto é **Administrador > Página inicial > Projetos** à esquerda e **Projetos > Detalhes do projeto > example-health-<seu id único>** na parte superior.
 
 ### Construir e implantar aplicativo
 1. Mude da perspectiva do **Administrador** para a perspectiva do **Desenvolvedor**. Seu contexto deve ser **Desenvolvedor > +Adicionar** à esquerda e **Projeto: exemplo-saúde** no topo.
@@ -107,7 +107,7 @@ Crie um script para simular carga.
 
 1. Certifique-se de estar conectado ao projeto onde implantou seu aplicativo.
    ```
-   oc project example-health
+   oc project example-health-<seu id único>
    ```
 2. Recupere a rota pública para acessar seu aplicativo:
    ```
@@ -152,7 +152,7 @@ Os painéis anteriores mostraram que a carga estava consumindo algo entre “0,0
 1. Certifique-se de que o script para gerar tráfego esteja em execução.
 2. Mude para a perspectiva do **Administrador**.
 3. Navegue até **Cargas de trabalho > DeploymentConfigs**.
-4. Selecione o projeto **example-health**.
+4. Selecione o projeto **example-health-<seu id único>**.
 5. No menu **Ações** (os três pontos verticais) de `patient-health-frontend-<seu id único>` , escolha **Editar DeploymentConfig**.
 
 ![ocp48-deploymentconfigs](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/dc862fb2-5e99-4bc5-b228-6bd8ba60f807)
@@ -196,7 +196,7 @@ Por padrão, o escalonador automático permite dimensionar com base na CPU ou na
 
 ![ocp48-hpa](https://github.com/mguedes352/ibmcloud-rhoic/assets/79527238/f324109b-fd35-4c9e-b5fa-78d9a026289b)
 
-Substitua o conteúdo do editor por este yaml(**Inclua no nome "patient-health-frontend" o seu id único**):
+Substitua o conteúdo do editor por este yaml(**Inclua no nome "patient-health-frontend" e "example-health" o seu id único**):
 
 ```
 apiVersion: autoscaling/v2
@@ -240,7 +240,7 @@ Você também pode excluir e criar recursos como escalares automáticos com a li
 
 1. Comece verificando se o contexto é o seu projeto:
 ```
-oc project example-health
+oc project example-health-<seu id único>
 ```
 2. Obtenha o escalonador automático criado anteriormente:
 ```
@@ -327,7 +327,7 @@ Os dados iniciais podem NÃO estar disponíveis em instâncias **de monitorament
 - Após alguns minutos, os dados brutos serão exibidos
 - Após cerca de uma hora, a indexação fornecerá os detalhes necessários para prosseguir com este tutorial
 - Na seção **Painéis**, selecione **Kubernetes > Status e desempenho do pod** para visualizar métricas brutas de todas as cargas de trabalho em execução no cluster.
-- Defina o filtro de **namespace** como **example-health** para focar nos pods do seu aplicativo.
+- Defina o filtro de **namespace** como **example-health-<seu id único>** para focar nos pods do seu aplicativo.
 - Em **Painéis** no painel esquerdo, expanda **Aplicações** em **Dashboard Templates**. Em seguida, selecione **HTTP** para obter uma visão global da carga HTTP do cluster.
 
 ### Explore o cluster e a capacidade do nó
@@ -343,13 +343,13 @@ Os dados iniciais podem NÃO estar disponíveis em instâncias **de monitorament
    Um painel detalhado mostrando todos os pods do cluster.
 
 2. Crie um painel personalizado e, em seguida, coloque-o em um namespace específico.
-   - No canto superior direito, clique em **Copiar para meus painéis** e nomeie-o `Workload Status & Performanceapp example-health`
+   - No canto superior direito, clique em **Copiar para meus painéis** e nomeie-o `Workload Status & Performanceapp example-health-<seu id único>`
    - Clique em **Criar e abrir** para criar seu próprio painel.
    - Edite o escopo do painel.
-   - Defina o filtro para `kube_namespace_name, is, example-health`.
+   - Defina o filtro para `kube_namespace_name, is, example-health-<seu id único>`.
    - Clique em **Salvar**.
 
-O painel agora mostra informações focadas no namespace example-health.
+O painel agora mostra informações focadas no namespace example-health-<seu id único>.
 
 Role para baixo até TimeCharts para solicitações HTTP, latência, erro, ... para entender o desempenho do aplicativo.
 
